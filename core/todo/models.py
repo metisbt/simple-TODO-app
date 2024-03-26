@@ -1,9 +1,7 @@
 from django.db import models
 
 class Task(models.Model):
-    author = models.ForeignKey(
-        'accounts.profile', on_delete=models.CASCADE, null=True, blank=True
-    )
+    author = models.ForeignKey('accounts.profile', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     complete = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now_add=True)
