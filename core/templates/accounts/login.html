@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update</title>
+    <title>Login</title>
 </head>
 <body>
     <form method="post">{% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Change">
+        <input type="submit" value="login">
     </form>
+    <a type="button" href="{% url 'accounts:register' %}">register</a>
 </body>
 </html>
