@@ -5,7 +5,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-
 class UserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers
