@@ -13,13 +13,13 @@ class TaskListView(LoginRequiredMixin,ListView):
     context_object_name = "tasks"
 
     def get_queryset(self):
-        tasks = Task.objects.all()
+        tasks = Task.objects.filter(author=self.request.user)
         return tasks
 
 class CreateTaskView(LoginRequiredMixin,CreateView):
     model = Task
     fields = ["title"]
-    success_url = '/todo/list_task.html'
+    success_url = reverse_lazy("task_list")
 
     def form_valid(self, form):
         '''
@@ -30,17 +30,17 @@ class CreateTaskView(LoginRequiredMixin,CreateView):
 
 class UpdateTaskView(LoginRequiredMixin,UpdateView):
     model = Task
-    success_url = '/todo/list_task.html'
+    success_url = reverse_lazy("task_list")
     form_class = UpdateTaskFrom
     template_name = "todo/update_task.html"
 
 class DeleteTaskView(LoginRequiredMixin,DeleteView):
     model = Task
-    success_url = '/todo/list_task.html'
+    success_url = reverse_lazy("task_list")
 
 class TaskCompleteView(LoginRequiredMixin,View):
     model = Task
-    success_url = '/todo/list_task.html'
+    success_url = reverse_lazy("task_list")
 
     def get(self, request, *args, **kwargs):
         object = Task.objects.get(id=kwargs.get("pk"))

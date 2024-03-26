@@ -1,7 +1,12 @@
 from django.db import models
+from accounts.models import User
+from django.contrib.auth import get_user_model
+
+# getting user model object
+User = get_user_model()
 
 class Task(models.Model):
-    author = models.ForeignKey('accounts.profile', on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     complete = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now_add=True)
