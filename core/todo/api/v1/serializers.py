@@ -1,7 +1,13 @@
 from rest_framework import serializers
 from todo.models import Task
-from accounts.models import Profile
+from accounts.models import Profile, User
 
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'email']
 
 class TaskSerializer(serializers.ModelSerializer):
     relative_url = serializers.URLField(source='get_absolute_api_url', read_only=True)
@@ -20,6 +26,10 @@ class TaskSerializer(serializers.ModelSerializer):
         # for get request object that send by user request
         request = self.context.get('request')
         rep = super().to_representation(instance)
+        if request.parser_context.get('kwargs').get('pk'):
+            rep.pop('relative_url', None)
+            rep.pop('absolute_url', None)
+        rep['author'] = UserSerializer(instance.author).data
         return rep
     
     def create(self, validated_data):
