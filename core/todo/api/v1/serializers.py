@@ -4,10 +4,12 @@ from accounts.models import Profile, User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(source="user.id", read_only=True)
+    email = serializers.CharField(source="user.email", read_only=True)
 
     class Meta:
-        model = User
-        fields = ['id', 'email']
+        model = Profile
+        fields = ['user_id', 'email']
 
 class TaskSerializer(serializers.ModelSerializer):
     relative_url = serializers.URLField(source='get_absolute_api_url', read_only=True)
@@ -20,7 +22,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def get_absolute_url(self,obj):
         request = self.context.get('request')
-        return request.build_absolute_uri(obj)
+        return request.build_absolute_uri(obj.pk)
     
     def to_representation(self, instance):
         # for get request object that send by user request
